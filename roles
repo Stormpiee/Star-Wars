@@ -1,0 +1,10 @@
+    role1 = discord.utils.get(guild.roles, name='Citizen')
+    role2 = discord.utils.get(guild.roles, name='Jedi')
+    role3 = discord.utils.get(guild.roles, name='Sith')
+    role4 = discord.utils.get(guild.roles, name='Bounty Hunter')
+    
+    role5 = discord.utils.get(guild.roles, name='Sith Baby')
+    role6 = discord.utils.get(guild.roles, name='Jedi Youngling')
+
+    role7 = discord.utils.get(guild.roles, name='Sith Lord')
+    role8 = discord.utils.get(guild.roles, name='Jedi Master')

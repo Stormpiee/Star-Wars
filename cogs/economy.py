@@ -78,4 +78,4 @@ class _economy(commands.Cog):
 
 def setup(bot):
     bot.add_cog(_economy(bot))
-    print("loading economy completed")
+    #print("loading economy completed")

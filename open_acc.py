@@ -30,3 +30,17 @@ def get_user_data():
     with open("users.json", "r") as f:
         users = json.load(f)
     return users
+
+def open_inventory(user):
+    users = get_bank_data()
+
+    if str(user.id) in users: 
+        return
+    else:
+        users[str(user.id)] = {}
+        users[str(user.id)]["stolen light saber"] = 0
+        users[str(user.id)]["light saber"] = 1
+
+    with open("inventory.json", "w") as f:
+        json.dump(users, f)
+    return

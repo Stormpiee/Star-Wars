@@ -5,6 +5,7 @@ import json
 import datetime
 from discord.ext import commands 
 from dotenv import load_dotenv
+from open_acc import get_user_data
 bot = commands.Bot(command_prefix = '!', case_insensitive=True)
 
 if __name__ == "__main__":
@@ -60,7 +61,6 @@ async def on_raw_reaction_add(payload):
     elif payload.emoji.name == '\N{White Large Square}':
         role = discord.utils.get(guild.roles, name='Citizen')
         await member.add_roles(role)
-
 
 @bot.event
 async def on_raw_reaction_remove(payload):
@@ -156,7 +156,7 @@ async def level_up(ctx, users, user, channel):
                 role = discord.utils.get(ctx.guild.roles, name='Sith Lord')
                 await user.add_roles(role)
 
-        em = discord.Embed(title = f"{user.name} has leveld up to level {lvl_start}", color = discord.Color.purple())
+        em = discord.Embed(title = f"{user.name} has leveled up to level {lvl_start}", color = discord.Color.purple())
         await ctx.channel.send(embed = em)
     with open('users.json', 'w') as f:
         json.dump(users, f)
@@ -166,25 +166,39 @@ async def level_up(ctx, users, user, channel):
 @commands.cooldown(1, 60*60*6, commands.BucketType.user)
 async def _training(ctx):
 
+    users = get_user_data()
+    user = ctx.author    
+    lvl_start = users[str(user.id)]['level']
+
+
     role2 = discord.utils.get(ctx.guild.roles, name='Jedi')
     role3 = discord.utils.get(ctx.guild.roles, name='Sith')
 
     if role2 in ctx.author.roles or role3 in ctx.author.roles:
 
-        em = discord.Embed(title = "Your training has been completed", description = "You have trained well and earned **100 experience**", color = discord.Color.purple())
+        em = discord.Embed(title = "Your training has been completed", description = f"You have trained well and earned **500 exp**", color = discord.Color.purple())
         await ctx.channel.send(embed = em)
 
         with open('users.json', 'r') as f:
             users = json.load(f)
-    
+            
+        await add_experience(users, ctx.author, 500)
         await update_data(users, ctx.author)
-        await add_experience(users, ctx.author, 100)
         await level_up(ctx, users, ctx.author, ctx.channel)
 
         with open('users.json', 'w') as f:
             json.dump(users, f)
     else:
         await ctx.send("You can only train as a Jedi or a Sith")
+
+
+
+
+
+
+
+
+
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -193,8 +207,5 @@ async def on_command_error(ctx, error):
         await ctx.send(msg)
     else:
         raise error
-
-
-
 
 bot.run(TOKEN)

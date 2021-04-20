@@ -24,4 +24,4 @@ class _jedi(commands.Cog):
 
 def setup(bot):
     bot.add_cog(_jedi(bot))
-    print("loading jedi completed")
+    #print("loading jedi completed")

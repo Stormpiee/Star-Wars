@@ -38,8 +38,8 @@ def open_inventory(user):
         return
     else:
         users[str(user.id)] = {}
-        users[str(user.id)]["stolen light saber"] = 0
-        users[str(user.id)]["light saber"] = 1
+        users[str(user.id)]["Light saber part"] = 0
+        users[str(user.id)]["Light saber"] = 0
 
     with open("inventory.json", "w") as f:
         json.dump(users, f)

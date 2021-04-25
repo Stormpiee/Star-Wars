@@ -64,17 +64,6 @@ class _economy(commands.Cog):
         with open("mainbank.json", "w") as f:
             json.dump(users, f)
 
-    @commands.command(aliases = ["lvl", "level"])
-    @commands.cooldown(1, 5, commands.BucketType.user)
-    async def _level_embed(self, ctx):
-
-        users = get_user_data()
-        user = ctx.author
-
-        em = discord.Embed(title = ctx.author.name, description = users[str(user.id)]["level"], color = ctx.author.color)
-        await ctx.channel.send(embed = em)
-        
-
 
 def setup(bot):
     bot.add_cog(_economy(bot))

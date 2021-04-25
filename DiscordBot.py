@@ -5,7 +5,7 @@ import json
 import datetime
 from discord.ext import commands 
 from dotenv import load_dotenv
-from open_acc import get_user_data
+from open_acc import get_user_data, open_account, open_inventory
 bot = commands.Bot(command_prefix = '!', case_insensitive=True)
 
 if __name__ == "__main__":
@@ -96,6 +96,10 @@ async def on_member_join(member):
 async def on_message(ctx):
     if (ctx.author.bot):
         return
+    
+    open_account(ctx.author)
+    open_inventory(ctx.author)
+
     with open('users.json', 'r') as f:
         users = json.load(f)
     
@@ -176,7 +180,7 @@ async def _training(ctx):
 
     if role2 in ctx.author.roles or role3 in ctx.author.roles:
 
-        em = discord.Embed(title = "Your training has been completed", description = f"You have trained well and earned **500 exp**", color = discord.Color.purple())
+        em = discord.Embed(title = f"{user}'s training has been completed", description = f"You have trained well and earned **500 exp**", color = discord.Color.purple())
         await ctx.channel.send(embed = em)
 
         with open('users.json', 'r') as f:
@@ -191,11 +195,15 @@ async def _training(ctx):
     else:
         await ctx.send("You can only train as a Jedi or a Sith")
 
+@bot.command(aliases = ["lvl", "level"])
+async def _level_embed(ctx):
 
+    users = get_user_data()
+    user = ctx.author
+    lvl_start = users[str(user.id)]['level']
 
-
-
-
+    em = discord.Embed(title = ctx.author.name, description = f"level {lvl_start}", color = ctx.author.color)
+    await ctx.channel.send(embed = em)
 
 
 

@@ -35,4 +35,4 @@ class _ping(commands.Cog):
 
 def setup(bot):
     bot.add_cog(_ping(bot))
-    print("loading ping completed")
+    #print("loading ping completed")

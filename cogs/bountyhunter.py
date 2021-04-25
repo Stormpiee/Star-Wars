@@ -101,4 +101,4 @@ class _bountyhunter(commands.Cog):
 
 def setup(bot):
     bot.add_cog(_bountyhunter(bot))
-    print("loading bounty hunter completed")
+    #print("loading bounty hunter completed")
